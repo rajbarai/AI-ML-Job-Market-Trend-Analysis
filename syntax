@@ -129,14 +129,52 @@ print("Top 10 most frequent skills:")
 print(skill_counts.head(10))
 
 
+# This code compiles all skills from every job posting and counts them. The top skills are Python, SQL, and Data Analysis.
+
+skills_df = df_merged.copy()
+skills_df['skill'] = skills_df['job_skills'].str.split(', ')
+skills_df = skills_df.explode('skill')
+skills_df['skill'] = skills_df['skill'].str.lower().str.strip()
+
+top_skills = skills_df['skill'].value_counts().head(10).reset_index()
+top_skills.columns = ['Skill', 'Count']
+
+# Seaborn barplot
+plt.figure(figsize=(10,6))
+sns.barplot(data=top_skills, x='Count', y='Skill', palette='viridis')
+plt.title('Top 10 Most In-Demand Skills')
+plt.xlabel('Number of Job Postings')
+plt.ylabel('Skill')
+plt.tight_layout()
+plt.show()
+
+
+# Top Skills Plot
+sns.barplot(data=top_skills, x='Count', y='Skill', palette='viridis')
 
 
 
 
 
+Section 4: Salary Distribution and Trends
+# Median salary by experience level
+median_salary_by_exp = df_salaries.groupby('experience_level')['salary_in_usd'].median()
+print("Median salary by experience level:")
+print(median_salary_by_exp)
 
 
+# Median Salary by Experience Level
+median_salary = df_salaries.groupby('experience_level')['salary_in_usd'].median().reset_index()
 
+sns.barplot(data=median_salary, x='experience_level', y='salary_in_usd', palette='coolwarm')
+plt.title('Median Salary by Experience Level')
+plt.ylabel('Median Salary (USD)')
+plt.xlabel('Experience Level')
+plt.tight_layout()
+plt.show()
+
+# Bar plot of Median Salary by Experience Level
+sns.barplot(data=median_salary, x='experience_level', y='salary_in_usd', palette='coolwarm')
 
 
 
