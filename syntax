@@ -90,3 +90,67 @@ print("Experience level categories:", df_salaries['experience_level'].unique())
 We have also implicitly standardized other fields (for example, ensuring skill lists are available for analysis).
 
 
+
+
+
+# Section 3: Exploratory Data Analysis
+With clean data, we conduct exploratory analysis to uncover trends. We will look at:
+
+- Job Postings distribution: How many job listings are from each country? What experience levels are sought? What are the most common job titles or 
+roles?
+
+- Skills demand: Which skills are most frequently required in these job postings?
+
+- Salary trends: How do salaries vary by role, experience level, etc., in the global dataset?
+
+# Job postings by country
+country_counts = df_merged['search_country'].value_counts()
+print("Job postings by country:")
+print(country_counts)
+
+
+# Experience level in AI/ML job listings
+print("Experience level distribution:")
+print(df_ai_jobs['experienceLevel'].value_counts())
+
+
+# Common job titles in salary data
+print("Most common job titles:")
+print(df_salaries['job_title'].value_counts().head(5))
+
+
+# Most frequent skills
+skills_exploded = df_merged.copy()
+skills_exploded['skill'] = skills_exploded['job_skills'].str.split(', ')
+skills_exploded = skills_exploded.explode('skill')
+skills_exploded['skill'] = skills_exploded['skill'].str.strip().str.lower()
+skill_counts = skills_exploded['skill'].value_counts()
+print("Top 10 most frequent skills:")
+print(skill_counts.head(10))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
