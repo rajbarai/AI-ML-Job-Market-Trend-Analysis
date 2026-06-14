@@ -177,17 +177,27 @@ plt.show()
 sns.barplot(data=median_salary, x='experience_level', y='salary_in_usd', palette='coolwarm')
 
 
+# Median salary by common roles
+common_roles = ['Data Scientist','Data Engineer','Data Analyst','Machine Learning Engineer']
+for role in common_roles:
+    median_pay = df_salaries[df_salaries['job_title'] == role]['salary_in_usd'].median()
+    print(f"Median salary for {role}: ${median_pay:,.0f}")
 
 
 
 
 
+Section 5: Analysis Conclusion
+We summarize key findings from our analysis on salary trends, skill demands, and job distributions. These insights can help guide job seekers, 
+employers, and educators.
 
+- Python and SQL are the most frequently required skills.
+- Mid to senior roles dominate the market, though entry roles exist.
+- Salary increases with experience and by role (e.g. ML Engineers earn more than Data Analysts).
+- U.S. dominates job posting locations; San Francisco and NYC are top hubs.
+- Communication and project management are non-technical but frequently requested skills.
 
-
-
-
-
+These findings can be used to align education, job preparation, and hiring strategies for AI/ML roles.
 
 
 
