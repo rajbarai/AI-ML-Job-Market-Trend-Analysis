@@ -1,1 +1,8 @@
+## Section 1: Data Preparation and Exploratory Analysis
 
+### 1.1 Loading the Data
+
+First, we load each of the four CSV datasets using pandas. We also inspect their structure (columns and sample records) to understand the content:
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
