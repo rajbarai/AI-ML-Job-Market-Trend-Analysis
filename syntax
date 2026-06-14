@@ -13,13 +13,21 @@ df_salaries = pd.read_csv("global_ai_ml_data_salaries.csv")
 df_postings = pd.read_csv("job_postings.csv")
 df_skills = pd.read_csv("job_skills.csv")
 
-# Print basic info for each dataset
+# 1.3 Print basic info for each dataset
 print("AI/ML Job Listings (USA):", df_ai_jobs.shape)
 print("Global AI/ML Salaries:", df_salaries.shape)
 print("Job Postings:", df_postings.shape)
 print("Job Skills:", df_skills.shape)
 
-AI/ML Job Listings (USA): (862, 10)
-Global AI/ML Salaries: (40332, 11)
-Job Postings: (12217, 15)
-Job Skills: (12217, 2)
+# Running the above, we find:
+- AI/ML Job Listings (USA): 862 rows, with important columns 'title', 'location', 'companyName', 'experienceLevel', and 'sector'. 
+Each row is a job posting (e.g. “AI/ML Engineer” in New York, at company Wesper), including a free-text description of the job.
+
+- Global AI/ML Salaries: 40,332 rows, with important columns 'work_year', 'experience_level', 'job_title', 'salary_in_usd', and 'company_location'. 
+Each entry represents a salary record for a data/AI job (e.g. a Data Architect in 2024 with salary $170,955 USD). The data covers multiple years (2020–2024) and many job titles.
+
+- Job Postings: 12,217 rows, with key columns 'job_title', 'company', 'job_location', 'job_level', and 'search_country'. 
+Each is a data science related job listing from LinkedIn. (This dataset is global but mainly U.S., U.K., Canada, and Australia.)
+
+- Job Skills: 12,217 rows, with columns 'job_link' and 'job_skills'. For each job posting (matching by job_link), this provides a comma-separated 
+list of skills required (extracted from the job description). For example, a posting for “Senior Machine Learning Engineer” might list skills like “Machine Learning, Python, Java, Cloud Computing, etc.”
