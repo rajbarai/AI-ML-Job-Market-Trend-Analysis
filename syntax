@@ -31,3 +31,62 @@ Each is a data science related job listing from LinkedIn. (This dataset is globa
 
 - Job Skills: 12,217 rows, with columns 'job_link' and 'job_skills'. For each job posting (matching by job_link), this provides a comma-separated 
 list of skills required (extracted from the job description). For example, a posting for “Senior Machine Learning Engineer” might list skills like “Machine Learning, Python, Java, Cloud Computing, etc.”
+
+
+
+
+
+
+# Section 2: Data Cleaning and Preprocessing
+
+We perform several cleaning steps to ensure the data is consistent and ready for analysis.
+- Handling Missing Values: We check for missing entries. For instance, the AI/ML jobs dataset has a few missing published 'At dates' and a couple 
+of missing sector values; the job_skills dataset has a few jobs with no skills listed. Since these are relatively few and not critical, we can drop those rows or ignore those fields in analysis. Here, we'll drop any job postings with no skills (to focus on those that have skill data) and leave other minor missing values as-is (or they will be implicitly ignored in grouped analysis).
+
+- Removing Duplicates: We remove duplicate records if any. In the global salaries data, a large number of exact duplicate rows are present 
+(likely repeated entries), so we drop those to avoid skewing results. We also drop 3 duplicate entries found in the AI/ML job listings.
+
+- Dropping Irrelevant Columns: In the job_postings data, some columns (last_processed_time, got_summary, etc.) are artifacts of the data collection 
+process and not needed for analysis. We drop such technical columns to focus on meaningful fields.
+
+- Standardizing Categorical Values: We map or format certain categorical codes to human-readable form. For example, in the salary dataset, 
+experience_level is coded as "EN" (Entry), "MI" (Mid-level), "SE" (Senior), "EX" (Executive); we will map these to full names. Similarly, employment_type codes ("FT" full-time, "PT" part-time, etc.) could be mapped if needed. We also note that remote_ratio is 0, 50, or 100 (representing on-site, hybrid, or fully remote).
+
+- Merging Datasets: We merge the Job Postings and Job Skills data on the job_link (unique job identifier) to attach the skill list to each job entry. 
+This gives us a combined view of each job and its required skills for analysis.
+
+Let's implement these cleaning steps:
+
+# Drop irrelevant columns
+df_postings.drop(columns=['last_processed_time','last_status','got_summary','got_ner','is_being_worked'], inplace=True, errors='ignore')
+
+# Drop rows with missing skills
+df_skills_clean = df_skills.dropna(subset=['job_skills'])
+
+# Merge postings with skills
+df_merged = pd.merge(df_postings, df_skills_clean, on='job_link', how='inner')
+print("Merged job postings with skills:", df_merged.shape)
+
+# Remove duplicates
+df_ai_jobs.drop_duplicates(inplace=True)
+df_salaries.drop_duplicates(inplace=True)
+
+# Map experience level codes
+exp_map = {'EN': 'Entry', 'MI': 'Mid-level', 'SE': 'Senior', 'EX': 'Executive'}
+df_salaries['experience_level'] = df_salaries['experience_level'].map(exp_map)
+
+print("Experience level categories:", df_salaries['experience_level'].unique())
+
+### After cleaning:
+
+- The merged job postings dataset (df_merged) now has shape (around 12,212 rows, 11 columns), combining each job with its skills.
+
+- The AI/ML job listings dataset is down to ~859 unique postings after removing duplicates.
+
+- The salary dataset is reduced to ~20,407 unique salary records (the duplicates were dropped).
+
+- The experience_level in salary data is now mapped to ['Senior','Mid-level','Entry','Executive'] (in some order).
+
+We have also implicitly standardized other fields (for example, ensuring skill lists are available for analysis).
+
+
